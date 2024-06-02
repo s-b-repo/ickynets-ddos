@@ -95,14 +95,9 @@ Our social's💻
    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" width="64" height="64" alt="telegram" />
 </div>
 
- * [Matrix community Telegram channel](https://t.me/Matrix_Development)
- * [Matrix team Telegram Group](https://t.me/MatrixTMChat)
- * [GitHub](https://github.com/MatrixTM)
 ### If u Like the project, leave a star on the repository!
 
-## Downloads
 
-You can download it from [GitHub Releases](https://github.com/MatrixTM/MHDDoS/releases)
 
 ### Getting Started
 
