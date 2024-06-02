@@ -1,4 +1,4 @@
-<p align="center"><img src="https://ibb.co/yS4sxZW" width="400px" height="150px" alt="ddos"></p>
+<a href="https://ibb.co/yS4sxZW"><img src="https://i.ibb.co/yS4sxZW/maxresdefault.jpg" alt="maxresdefault" border="0"></a>
 
 <h1 align="center">ickynets-ddos - DDoS Attack Script With 56 Methods</h1>
 <em><h5 align="center">(Programming Language - Python 3)</h5></em>
