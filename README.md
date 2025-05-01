@@ -109,7 +109,7 @@ python3 main.py RANGESPLIT example.com 443 100 --duration 75 --use-proxy
 
 python3 main.py ACCEPTOVERLOAD example.com 443 70 --duration 90 --use-proxy
 
-
-
+### requirements
+pip install aiohttp requests
 pip install requests[socks]
 pip install httpx
