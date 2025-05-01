@@ -16,3 +16,6 @@ This launches a UDP flood on IP 192.168.1.100, port 80, with 50 threads for 30 s
 python3 main.py GET example.com 80 100 --duration 60 --use-proxy
 
 This sends HTTP GET requests to http://example.com:80 using 100 threads for 60 seconds, rotating through proxies from proxies.txt.
+
+
+pip install requests[socks]
