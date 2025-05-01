@@ -19,3 +19,4 @@ This sends HTTP GET requests to http://example.com:80 using 100 threads for 60 s
 
 
 pip install requests[socks]
+pip install httpx
