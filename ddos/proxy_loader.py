@@ -1,30 +1,31 @@
 # proxy_loader.py
 
-from typing import List
+from typing import Dict, List
 import os
 
-def load_proxies(args) -> List[str]:
-    proxy_file = "proxies.txt"
-    proxies = []
+PROXY_FILES = {
+    "socks4": "socks4.txt",
+    "socks5": "socks5.txt",
+    "http": "http.txt",
+    "https": "https.txt",
+}
 
-    if not os.path.isfile(proxy_file):
-        print(f"[!] Proxy file '{proxy_file}' not found.")
-        return []
+def load_proxies(args) -> Dict[str, List[str]]:
+    proxies = {}
 
-    with open(proxy_file, "r") as file:
-        for line in file:
-            proxy = line.strip()
-            if proxy and is_valid_proxy_format(proxy):
-                proxies.append(proxy)
-
-    if not proxies:
-        print("[!] No valid proxies found.")
-    else:
-        print(f"[+] Loaded {len(proxies)} proxies.")
+    for proxy_type, filename in PROXY_FILES.items():
+        if os.path.isfile(filename):
+            with open(filename, "r") as file:
+                proxy_list = [line.strip() for line in file if is_valid_proxy_format(line)]
+                proxies[proxy_type] = proxy_list
+                print(f"[+] Loaded {len(proxy_list)} {proxy_type.upper()} proxies.")
+        else:
+            proxies[proxy_type] = []
+            print(f"[!] Proxy file missing: {filename}")
 
     return proxies
 
 
 def is_valid_proxy_format(proxy: str) -> bool:
-    parts = proxy.split(":")
-    return len(parts) == 2 and all(part.strip().isdigit() or "." in part for part in parts)
+    parts = proxy.strip().split(":")
+    return len(parts) == 2 and parts[0].count('.') == 3 and parts[1].isdigit()
