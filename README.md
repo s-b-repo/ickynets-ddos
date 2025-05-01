@@ -10,6 +10,7 @@
 python3 main.py UDP 192.168.1.100 80 50 --duration 30
 
 This launches a UDP flood on IP 192.168.1.100, port 80, with 50 threads for 30 seconds.
+
 💡 Example 2: Layer 7 Attack (GET) with Proxy
 
 python3 main.py GET example.com 80 100 --duration 60 --use-proxy
