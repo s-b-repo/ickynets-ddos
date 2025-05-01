@@ -1,7 +1,7 @@
-# proxy_loader.py
-
 from typing import Dict, List
 import os
+import aiofiles
+import asyncio
 
 PROXY_FILES = {
     "socks4": "socks4.txt",
@@ -10,19 +10,24 @@ PROXY_FILES = {
     "https": "https.txt",
 }
 
-def load_proxies(args) -> Dict[str, List[str]]:
-    proxies = {}
+async def load_proxies(args) -> Dict[str, List[str]]:
+    proxies: Dict[str, List[str]] = {}
+    lock = asyncio.Lock()  # 🛡️ to prevent race conditions when writing to `proxies`
 
-    for proxy_type, filename in PROXY_FILES.items():
+    async def load_proxy_file(proxy_type: str, filename: str):
         if os.path.isfile(filename):
-            with open(filename, "r") as file:
-                proxy_list = [line.strip() for line in file if is_valid_proxy_format(line)]
+            async with aiofiles.open(filename, mode='r') as file:
+                lines = await file.readlines()
+                proxy_list = [line.strip() for line in lines if is_valid_proxy_format(line)]
+            async with lock:
                 proxies[proxy_type] = proxy_list
-                print(f"[+] Loaded {len(proxy_list)} {proxy_type.upper()} proxies.")
+            print(f"[+] Loaded {len(proxy_list)} {proxy_type.upper()} proxies.")
         else:
-            proxies[proxy_type] = []
+            async with lock:
+                proxies[proxy_type] = []
             print(f"[!] Proxy file missing: {filename}")
 
+    await asyncio.gather(*(load_proxy_file(proxy_type, filename) for proxy_type, filename in PROXY_FILES.items()))
     return proxies
 
 
